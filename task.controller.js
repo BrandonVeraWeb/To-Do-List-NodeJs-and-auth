@@ -6,11 +6,7 @@ const task = {
     const task = await Tasks.find();
     res.status(200).send(task);
   },
-  get: async (req, res) => {
-    const { id } = req.params;
-    const user = await Tasks.findOne({ _id: id });
-    res.status(200).send(user);
-  },
+
   create: async (req, res) => {
     const task = new Tasks(req.body);
     const saveTask = await task.save();
