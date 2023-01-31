@@ -1,5 +1,6 @@
 const loadInitialTemplate = () => {
   const template = `
+  <div><button id="salir">Salir</button></div>
     <h1>To Do List</h1>
     <form id="task-form">
     <div>
@@ -17,10 +18,19 @@ const loadInitialTemplate = () => {
     <button type="submit">Enviar</button>
     </form>
     <ul id="task-state"> </ul>   
+    
 
     `;
   const body = document.getElementsByTagName("body")[0];
   body.innerHTML = template;
+};
+const out = () => {
+  const out = document.getElementById("salir");
+  out.onclick = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("jwt");
+    return loginPage();
+  };
 };
 
 const getTask = async () => {
@@ -32,12 +42,12 @@ const getTask = async () => {
   const tasks = await response.json();
 
   const template = (task) => `
-  <li>${task.task} ${task.state} <button id="${task._id}">Eliminar </button> </li>
+  <li>${task.task} ${task.state} <button data-id="${task._id}">Eliminar </button> </li>
   `;
   const formList = document.getElementById("task-state");
-  formList.innerHTML = tasks.map((task) => template(task)).join(" ");
+  formList.innerHTML = tasks.map((task) => template(task)).join("");
   tasks.forEach((task) => {
-    const taskNode = document.querySelector(`[data-id="${task._id}"]`);
+    taskNode = document.querySelector(`[data-id="${task._id}"]`);
     taskNode.onclick = async (e) => {
       await fetch(`/tasks/${task._id}`, {
         method: "DELETE",
@@ -45,8 +55,8 @@ const getTask = async () => {
           Authorization: localStorage.getItem("jwt"),
         },
       });
-
       taskNode.parentNode.remove();
+      alert("Elimando Task");
     };
   });
 };
@@ -77,6 +87,7 @@ const taskPage = () => {
   loadInitialTemplate();
   addEventListener();
   getTask();
+  out();
 };
 
 const loadRegisterTemplate = () => {
