@@ -1,6 +1,6 @@
 const loadInitialTemplate = () => {
   const template = `
-  <div><button id="salir">Salir</button></div>
+  <div><button id="salir">LogOut</button></div>
     <h1>To Do List</h1>
     <form id="task-form">
     <div>
@@ -15,7 +15,7 @@ const loadInitialTemplate = () => {
     <option value="terminado">Terminado</option>
     </select>
     </div>
-    <button type="submit">Enviar</button>
+    <button type="submit">Send</button>
     </form>
     <ul id="task-state"> </ul>   
     
@@ -42,7 +42,7 @@ const getTask = async () => {
   const tasks = await response.json();
 
   const template = (task) => `
-  <li>${task.task} ${task.state} <button data-id="${task._id}">Eliminar </button> </li>
+  <li>${task.task} ${task.state} <button data-id="${task._id}">Delete </button> </li>
   `;
   const formList = document.getElementById("task-state");
   formList.innerHTML = tasks.map((task) => template(task)).join("");
@@ -55,8 +55,8 @@ const getTask = async () => {
           Authorization: localStorage.getItem("jwt"),
         },
       });
+      alert("Task deleted");
       taskNode.parentNode.remove();
-      alert("Elimando Task");
     };
   });
 };
@@ -102,9 +102,9 @@ const loadRegisterTemplate = () => {
   <label>Password</label>
   <input name="password">
   </div>
-  <button type="submit">Enviar</button>
+  <button type="submit">Send</button>
   </form>
-  <a href="#" id="login">Iniciar sesion</a>
+  <a href="#" id="login">LogIn</a>
   <p id="error"> </p>
   
 `;
@@ -165,7 +165,7 @@ const loadLoginTemplate = () => {
     <label>Password</label>
     <input name="password">
     </div>
-    <button type="submit">Enviar</button>
+    <button type="submit">Send</button>
     </form>
     <a href="#" id="register">Register</a>
     <p id="error"> </p>
@@ -188,6 +188,7 @@ const addLoginListener = () => {
     const formData = new FormData(loginForm);
     const data = Object.fromEntries(formData.entries());
     const response = await fetch("/login", {
+      mode: "no-cors",
       method: "POST",
       body: JSON.stringify(data),
       headers: {

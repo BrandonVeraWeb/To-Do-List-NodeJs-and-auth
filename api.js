@@ -4,9 +4,7 @@ const port = 3000;
 const Task = require("./task.controller");
 const mongoose = require("mongoose");
 const { Auth, isAuthenticated } = require("./auth.controller");
-mongoose.connect(
-  "mongodb+srv://BrandonV:123456789BvB@cluster0.mn1zryg.mongodb.net/miapp?retryWrites=true&w=majority"
-);
+mongoose.connect();
 app.use(express.json());
 
 app.get("/tasks", isAuthenticated, Task.list);

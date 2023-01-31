@@ -31,14 +31,14 @@ const Auth = {
     try {
       const user = await User.findOne({ email: body.email });
       if (!user) {
-        res.status(401).send("password o Email incorrectos");
+        res.status(401).send("Password or email invalidated");
       } else {
         const isMatch = await bcrypt.compare(body.password, user.password);
         if (isMatch) {
           const signed = signToken(user._id);
           res.status(200).send(signed);
         } else {
-          res.status(401).send("password o Email incorrectos");
+          res.status(401).send("Password or email invalidated");
         }
       }
     } catch (error) {
@@ -50,7 +50,7 @@ const Auth = {
     try {
       const isUser = await User.findOne({ email: body.email });
       if (isUser) {
-        res.send("user ya existente");
+        res.send("User exist");
       } else {
         const salt = await bcrypt.genSalt();
         const hashed = await bcrypt.hash(body.password, salt);
